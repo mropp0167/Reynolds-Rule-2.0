@@ -1,6 +1,6 @@
 // ESPN's unofficial fantasy API can change. All imported stats remain editable.
-const SLOT = {0:'QB',2:'RB',4:'WR',6:'TE',16:'D/ST',17:'K',23:'FLEX',3:'FLEX',5:'FLEX',7:'FLEX',20:'FLEX',21:'FLEX'};
-const BENCH = new Set([12,13,14,15,18,19,22,24,25]);
+const SLOT = {0:'QB',2:'RB',4:'WR',6:'TE',16:'D/ST',17:'K',23:'FLEX',3:'FLEX',5:'FLEX',7:'FLEX',20:'FLEX'};
+const BENCH = new Set([12,13,14,15,18,19,21,22,24,25]);
 const val=(s,id)=>Number(s?.[String(id)]||0);
 function statLine(entry,week){
   const p=entry.playerPoolEntry?.player||entry.player||{};
