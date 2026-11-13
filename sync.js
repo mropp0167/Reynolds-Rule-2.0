@@ -50,9 +50,18 @@ function importESPN(data,week,nflSchedule){
     const entries=extractEntries(side,teams,team.id);
     if(!entries.length)throw Error(`No lineup data for ${team.name}. Import stopped.`);
     const starters=entries.filter(e=>STARTER_SLOTS.has(Number(e.lineupSlotId)));
-    const counts={};for(const e of starters){const id=Number(e.lineupSlotId);counts[id]=(counts[id]||0)+1;}
-    if(starters.length!==9||counts[0]!==1||counts[2]!==2||counts[4]!==2||counts[6]!==1||counts[23]!==1||counts[16]!==1||counts[17]!==1)
-      throw Error(`Unexpected starting lineup for ${team.name}: ${starters.length} starters. Import stopped to avoid inaccurate rankings.`);
+    
+    const counts={};
+    for(const e of starters){
+      const id=Number(e.lineupSlotId);
+      counts[id]=(counts[id]||0)+1;
+    }
+    const expected={0:1,2:2,4:2,6:1,23:1,16:1,17:1};
+    if(starters.length>9 || Object.entries(expected).some(([id,max])=>(counts[id]||0)>max))
+      throw Error(`Invalid starting lineup for ${team.name}. Import stopped.`);
+    if(starters.length<9)
+      warnings.push(`${team.name} had ${9-starters.length} empty starting position(s), counted as zero.`);
+  
     const rows=[];
     for(const e of starters){
       const r=statLine(e,week,playingTeamIds);
