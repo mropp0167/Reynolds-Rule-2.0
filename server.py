@@ -17,13 +17,7 @@ class Handler(SimpleHTTPRequestHandler):
             if not (2018 <= year <= 2100 and 1 <= week <= 18):
                 raise ValueError('Invalid season or week')
             endpoint = f'https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/{year}/segments/0/leagues/{LEAGUE_ID}'
-            params = [
-    ('view', 'mTeam'),
-    ('view', 'mBoxscore'),
-    ('view', 'mRoster'),
-    ('view', 'kona_player_info'),
-    ('scoringPeriodId', str(week)),
-    ('matchupPeriodId', str(week))
+            params = [('view', 'mTeam'), ('view', 'mBoxscore'), ('view', 'mRoster'), ('view', 'kona_player_info'), ('scoringPeriodId', str(week)), ('matchupPeriodId', str(week))]
             req = Request(endpoint+'?'+urlencode(params), headers={'User-Agent':'Mozilla/5.0','Accept':'application/json'})
             with urlopen(req, timeout=20) as response:
                 payload = response.read(12_000_000)
