@@ -5,7 +5,7 @@ const val=(s,id)=>Number(s?.[String(id)]||0);
 function statLine(entry,week){
   const p=entry.playerPoolEntry?.player||entry.player||{};
   const statEntries=p.stats||entry.playerPoolEntry?.stats||[];
-  const actual=statEntries.find(s=>s.statTypeId===0 && Number(s.scoringPeriodId)===week && (!s.seasonId || Number(s.seasonId)===state.season));
+  const actual=statEntries.find(s=>Number(s.statSourceId)===0 && Number(s.scoringPeriodId)===week && (!s.seasonId || Number(s.seasonId)===state.season));
   const s=actual?.stats || actual?.appliedStats;
   if(!s)return null;
   const slot=SLOT[entry.lineupSlotId]||'OTHER';
