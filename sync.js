@@ -42,7 +42,7 @@ function importESPN(data,week){
     const side=sides.get(team.id);
     const entries=extractEntries(side,teams,team.id);
     if(!entries.length)throw Error(`No lineup data for ${team.name}. Import stopped.`);
-    const starters=entries.filter(e=>!BENCH.has(Number(e.lineupSlotId)) && SLOT[e.lineupSlotId]);
+    const starters=entries.filter(e=>[0,2,4,6,16,17,23].includes(Number(e.lineupSlotId)));
     if(!starters.length)throw Error(`No starters found for ${team.name}. Import stopped.`);
     const rows=[];
     for(const e of starters){const r=statLine(e,week);if(!r)throw Error(`Missing actual weekly stats for starter ${e.playerPoolEntry?.player?.fullName||e.playerId} (${team.name}). Try a completed week.`);rows.push(r);}
